@@ -53,70 +53,75 @@ export function Header() {
           "fixed inset-x-4 top-4 z-50 transition-all duration-500 ease-premium md:inset-x-6 lg:inset-x-10 xl:inset-x-20"
         )}
       >
-        <div
-          className={cn(
-            "animated-border flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-500 ease-premium md:px-6",
-            scrolled
-              ? "shadow-[0_8px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
-              : "backdrop-blur-xl",
-            "glass"
-          )}
-          style={{ background: "var(--header-bg)" }}
-        >
-          {/* Left — Logo */}
-          <button
-            type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Volver al inicio"
-            className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        {/* Outer wrapper: owns the animated conic-gradient border only.
+            Keeping backdrop-filter off this node (and on the inner node
+            instead) is required for the border animation to composite
+            correctly on wide desktop headers — see globals.css. */}
+        <div className="animated-border rounded-2xl transition-all duration-500 ease-premium">
+          <div
+            className={cn(
+              "glass flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-500 ease-premium md:px-6",
+              scrolled
+                ? "shadow-[0_8px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+                : "backdrop-blur-xl"
+            )}
+            style={{ background: "var(--header-bg)" }}
           >
-            <Logo />
-          </button>
-
-          {/* Center — Nav links (desktop) */}
-          <nav aria-label="Main navigation" className="hidden lg:flex">
-            <ul className="flex items-center gap-1">
-              {NAV_ITEMS.map((key) => (
-                <li key={key}>
-                  <button
-                    type="button"
-                    onClick={() => scrollTo(SECTION_IDS[key])}
-                    className="rounded-lg px-3.5 py-2 text-[0.8125rem] font-medium text-ink-muted transition-all duration-200 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-                  >
-                    {t(key)}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Right — Controls + CTA */}
-          <div className="flex items-center gap-2">
-            <LocaleSwitcher className="hidden sm:flex" />
-            <ThemeToggle />
-
-            <MagneticButton
-              onClick={() => scrollTo("contact")}
-              className="hidden sm:inline-flex"
-              ariaLabel={tCta("talkToUs")}
-            >
-              {tCta("talkToUs")}
-            </MagneticButton>
-
-            {/* Hamburger (mobile) */}
+            {/* Left — Logo */}
             <button
               type="button"
-              aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="glass flex h-9 w-9 items-center justify-center rounded-full text-ink-muted transition-colors hover:text-ink lg:hidden"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              aria-label="Volver al inicio"
+              className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
             >
-              {mobileOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
+              <Logo />
             </button>
+
+            {/* Center — Nav links (desktop) */}
+            <nav aria-label="Main navigation" className="hidden lg:flex">
+              <ul className="flex items-center gap-1">
+                {NAV_ITEMS.map((key) => (
+                  <li key={key}>
+                    <button
+                      type="button"
+                      onClick={() => scrollTo(SECTION_IDS[key])}
+                      className="rounded-lg px-3.5 py-2 text-[0.8125rem] font-medium text-ink-muted transition-all duration-200 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                    >
+                      {t(key)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Right — Controls + CTA */}
+            <div className="flex items-center gap-2">
+              <LocaleSwitcher className="hidden sm:flex" />
+              <ThemeToggle />
+
+              <MagneticButton
+                onClick={() => scrollTo("contact")}
+                className="hidden sm:inline-flex"
+                ariaLabel={tCta("talkToUs")}
+              >
+                {tCta("talkToUs")}
+              </MagneticButton>
+
+              {/* Hamburger (mobile) */}
+              <button
+                type="button"
+                aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="glass flex h-9 w-9 items-center justify-center rounded-full text-ink-muted transition-colors hover:text-ink lg:hidden"
+              >
+                {mobileOpen ? (
+                  <X className="h-4 w-4" />
+                ) : (
+                  <Menu className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
